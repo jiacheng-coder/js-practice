@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="content">
+    <div class="text">
+      <span class="title">hello</span>
+    </div>
+  </div>
+  <script>
+    function getMaxDepth(node) {
+      if (!node || !node.children) {
+        return 0;
+      }
+      let maxDepth = 0;
+      for (let i = 0; i < node.children.length; i++) {
+        const depth = getMaxDepth(node.children[i]);
+        if (depth > maxDepth) {
+          maxDepth = depth;
+        }
+      }
+      return maxDepth + 1;
+    }
+
+    const maxDepth = getMaxDepth(document.documentElement);
+    console.log('最大深度:', maxDepth);
+
+  </script>
+</body>
+
+</html>

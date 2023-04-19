@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- <script src="./Mvvm.js"></script> -->
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <ul>
+      <li>name: <input type="text" v-model="name"></li>
+    </ul>
+    <ul>
+      <li>name: <span>{{name}}</span></li>
+    </ul>
+  </div>
+  <script>
+    class Mvvm {
+      constructor(el, data) {
+        this.el = document.querySelector(el);
+        this._data = data;
+        this.domPool = {}
+        this.init()
+      }
+      init() {
+        // this.initDataProxy()
+        this.initData()
+        this.initDom()
+      }
+      initData() {
+        this.data = {}
+        const that = this;
+        Object.keys(this._data).forEach(key => {
+          Object.defineProperty(this.data, key, {
+            get() {
+              return that._data[key];
+            },
+            set(value) {
+              that._data[key] = value;
+              that.domPool[key].innerText = value;
+            }
+          })
+        })
+      }
+      initDataProxy() {
+        const that = this;
+        this.data = new Proxy(this._data, {
+          get(target, prop) {
+            return target[prop]
+          },
+          set(target, prop, val) {
+            target[prop] = val;
+            that.domPool[prop].innerText = val;
+            return true
+          }
+        })
+      }
+      initDom() {
+        this.bindDom(this.el)
+        this.bindInput(this.el)
+      }
+      bindDom(el) {
+        const allChildNodes = el.childNodes
+        allChildNodes.forEach(item => {
+          if (item.nodeType === 3) { //代表是文本节点
+            const _value = item.nodeValue
+            if (_value.trim().length > 0) {
+              // 匹配双大括号里的内容
+              const regx = /{{(.+?)}}/
+              const isPass = regx.test(_value)
+              if (isPass) {
+                const _key = _value.match(regx)[1] // [0]:值本身 [1]:解析出的值
+                this.domPool[_key] = item.parentNode
+                item.parentNode.innerText = this.data[_key]
+              }
+            }
+          }
+          item.childNodes && this.bindDom(item)
+        })
+      }
+      bindInput(el) {
+        const inputs = el.querySelectorAll('input')
+        inputs.forEach(input => {
+          const _vmodel = input.getAttribute('v-model')
+          input.addEventListener(
+            'keyup',
+            this.handlerInput.bind(this, _vmodel, input, false)
+          )
+        })
+      }
+      handlerInput(key, input) {
+        const value = input.value
+        this.data[key] = value
+      }
+    }
+    new Mvvm('#app', {
+      name: ''
+    })
+  </script>
+</body>
+
+</html>

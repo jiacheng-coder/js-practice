@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .slider-container {
+      width: calc(100% * 4);
+      /* 4张图片宽度之和 */
+      white-space: nowrap;
+      /* 避免图片换行 */
+      overflow: hidden;
+      /* 隐藏超出部分 */
+    }
+
+    .slide {
+      width: calc(100% / 4);
+      /* 每张图片占25%宽度 */
+      display: inline-block;
+      /* 将图片放在同一行 */
+    }
+
+    @keyframes slide {
+      0% {
+        transform: translateX(0);
+        /* 初始位置 */
+      }
+
+      100% {
+        transform: translateX(-100%);
+        /* 平移一个图片宽度 */
+      }
+    }
+
+    .slider-container {
+      animation: slide 10s linear infinite;
+      /* 滚动动画 */
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="slider-container">
+    <img class="slide" src="./img/1.jpg">
+    <img class="slide" src="./img/2.jpg">
+    <img class="slide" src="./img/3.jpg">
+    <img class="slide" src="./img/default.png"> <!-- 将第一张图片复制一份放在末尾 -->
+  </div>
+
+</body>
+
+</html>

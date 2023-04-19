@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    /* 粘性定位 */
+    /* 粘性定位可以被认为是相对定位和固定定位的混合。元素在跨越特定值前被认为是相对定位，之后为固定定位 */
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    body {
+      height: 2000px;
+    }
+
+    div {
+      text-align: center;
+      line-height: 40px;
+    }
+
+    .header {
+      height: 40px;
+      width: 100%;
+      background-color: yellow;
+      position: fixed;
+      top: 0;
+    }
+
+    .banner {
+      height: 80px;
+      background-color: rosybrown;
+      margin-top: 40px;
+    }
+
+    .nav {
+      height: 40px;
+      background-color: royalblue;
+      position: sticky;
+      top: 40px;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="header">
+    头部
+  </div>
+  <div class="banner">
+    banner区域
+  </div>
+  <div class="nav">
+    导航栏
+  </div>
+</body>
+
+</html>
